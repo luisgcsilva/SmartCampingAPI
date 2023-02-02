@@ -62,5 +62,57 @@ namespace SmartCampingAPI.Controllers
 
             return Ok(reservas);
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CriarAlojamento([FromBody] AlojamentoDto alojamentoCriar)
+        {
+            if (alojamentoCriar == null)
+                return BadRequest();
+
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var alojamentoMap = _mapper.Map<Alojamento>(alojamentoCriar);
+
+            if (!_alojamentoRepository.CriarAlojamento(alojamentoMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Alojamento criado com sucesso!");
+        }
+
+        [HttpPut("{alojamentoId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateAlojamento(int alojamentoId, [FromBody] AlojamentoDto alojamentoAtualizado)
+        {
+            if (alojamentoAtualizado == null)
+                return BadRequest(ModelState);
+
+            if(alojamentoId != alojamentoAtualizado.AlojamentoId)
+                return BadRequest(ModelState);
+
+            if(!_alojamentoRepository.AlojamentoExists(alojamentoId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var alojamentoMap = _mapper.Map<Alojamento>(alojamentoAtualizado);
+
+            if(!_alojamentoRepository.AtualizarAlojamento(alojamentoMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

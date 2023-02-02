@@ -8,11 +8,25 @@ namespace SmartCampingAPI.Helper
     {
         public MappingProfiles()
         {
-            CreateMap<TipoUtilizador, TipoUtilizadorDto>();
-            CreateMap<Utilizador, UtilizadorDto>();
+            CreateMap<Alojamento, AlojamentoDto>();
+            CreateMap<AlojamentoDto, Alojamento>();
             CreateMap<Cliente, ClienteDto>();
+            CreateMap<ClienteDto, Cliente>(); 
+            CreateMap<EstadoReserva, EstadoReservaDto>();
+            CreateMap<EstadoReservaDto, EstadoReserva>();
             CreateMap<Funcionario, FuncionarioDto>();
+            CreateMap<FuncionarioDto, Funcionario>();
+            CreateMap<MetodoPagamento, MetodoPagamentoDto>();
+            CreateMap<MetodoPagamentoDto, MetodoPagamento>();
             CreateMap<Reserva, ReservaDto>();
+            CreateMap<ReservaDto, Reserva>();
+            CreateMap<TipoAlojamento, TipoAlojamentoDto>();
+            CreateMap<TipoAlojamentoDto, TipoAlojamento>();
+            CreateMap<TipoUtilizador, TipoUtilizadorDto>();
+            CreateMap<TipoUtilizadorDto, TipoUtilizador>();
+            CreateMap<Utilizador, UtilizadorDto>();
+            CreateMap<UtilizadorDto, Utilizador>();
+            
         }
     }
 }

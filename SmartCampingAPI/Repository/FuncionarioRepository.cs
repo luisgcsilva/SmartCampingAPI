@@ -11,6 +11,19 @@ namespace SmartCampingAPI.Repository
         {
             _context = context;
         }
+
+        public bool AtualizarFuncionario(Funcionario funcionario)
+        {
+            _context.Update(funcionario);
+            return Save();
+        }
+
+        public bool CriarFuncionario(Funcionario funcionario)
+        {
+            _context.Add(funcionario);
+            return Save();
+        }
+
         public bool FuncionarioExtists(int funcionarioId)
         {
             return _context.Funcionarios
@@ -19,12 +32,20 @@ namespace SmartCampingAPI.Repository
 
         public Funcionario GetFuncionario(int funcionarioId)
         {
-            return _context.Funcionarios.Where(f => f.FuncionarioId == funcionarioId).FirstOrDefault();
+            return _context.Funcionarios
+                .Where(f => f.FuncionarioId == funcionarioId).FirstOrDefault();
         }
 
         public ICollection<Funcionario> GetFuncionarios()
         {
-            return _context.Funcionarios.OrderBy(f => f.Nome).ToList();
+            return _context.Funcionarios
+                .OrderBy(f => f.Nome).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

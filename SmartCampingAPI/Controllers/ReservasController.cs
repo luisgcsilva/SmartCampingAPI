@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartCampingAPI.Dto;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
+using SmartCampingAPI.Repository;
 
 namespace SmartCampingAPI.Controllers
 {
@@ -45,6 +46,57 @@ namespace SmartCampingAPI.Controllers
                 return BadRequest();
 
             return Ok(reserva);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CriarReserva([FromBody] ReservaDto reservaCriar)
+        {
+            if (reservaCriar == null)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var reservaMap = _mapper.Map<Reserva>(reservaCriar);
+
+            if (!_reservaRepository.CriarReserva(reservaMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Reserva criada com sucesso!");
+        }
+
+        [HttpPut("{reservaId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateReserva(int reservaId, [FromBody] ReservaDto reservaAtualizada)
+        {
+            if (reservaAtualizada == null)
+                return BadRequest(ModelState);
+
+            if (reservaId != reservaAtualizada.ReservaId)
+                return BadRequest(ModelState);
+
+            if (!_reservaRepository.ReservaExists(reservaId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var reservaMap = _mapper.Map<Reserva>(reservaAtualizada);
+
+            if (!_reservaRepository.AtualizarReserva(reservaMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }

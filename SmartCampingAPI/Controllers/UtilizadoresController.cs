@@ -49,6 +49,67 @@ namespace SmartCampingAPI.Controllers
 
             return Ok(utilizador);
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CriarUtilizador([FromBody] UtilizadorDto utilizadorCriar)
+        {
+            if (utilizadorCriar == null)
+                return BadRequest();
+
+            var utilizador = _utilizadorRepository.GetUtilizadores()
+                .Where(u => u.Email.Trim().ToUpper() == utilizadorCriar.Email.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if(utilizador != null)
+            {
+                ModelState.AddModelError("", "O utilizador já existe!");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var utilizadorMap = _mapper.Map<Utilizador>(utilizadorCriar);
+
+            if(!_utilizadorRepository.CriarUtilizador(utilizadorMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Utilizador criado com sucesso!");
+        }
+
+        [HttpPut("{utilizadorId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateUtilizador(int utilizadorId, [FromBody] UtilizadorDto utilizadorAtualizado)
+        {
+            if (utilizadorAtualizado == null)
+                return BadRequest(ModelState);
+
+            if (utilizadorId != utilizadorAtualizado.UtilizadorId)
+                return BadRequest(ModelState);
+
+            if (!_utilizadorRepository.UtilizadorExists(utilizadorId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var utilizadorMap = _mapper.Map<Utilizador>(utilizadorAtualizado);
+
+            if (!_utilizadorRepository.AtualizarUtilizador(utilizadorMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 
 }

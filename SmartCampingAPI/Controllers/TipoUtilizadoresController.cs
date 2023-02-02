@@ -10,6 +10,7 @@ using SmartCampingAPI.Data;
 using SmartCampingAPI.Dto;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
+using SmartCampingAPI.Repository;
 
 namespace SmartCampingAPI.Controllers
 {
@@ -69,6 +70,67 @@ namespace SmartCampingAPI.Controllers
                 return BadRequest();
 
             return Ok(utilizadores);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CriarTipoUtilizador([FromBody] TipoUtilizadorDto tipoUtilizadorCriar)
+        {
+            if (tipoUtilizadorCriar == null)
+                return BadRequest();
+
+            var tipoUtilizador = _tipoUtilizadorRepository.GetTipoUtilizadores()
+                .Where(u => u.Tipo.Trim().ToUpper() == tipoUtilizadorCriar.Tipo.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (tipoUtilizador != null)
+            {
+                ModelState.AddModelError("", "O tipo de utilizador já existe!");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var tipoUtilizadorMap = _mapper.Map<TipoUtilizador>(tipoUtilizadorCriar);
+
+            if (!_tipoUtilizadorRepository.CriarTipoUtilizador(tipoUtilizadorMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Tipo de Utilizador criado com sucesso!");
+        }
+
+        [HttpPut("{tipoUtilizadorId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateTipoUtilizador(int tipoUtilizadorId, [FromBody] TipoUtilizadorDto tipoUtilizadorAtualizado)
+        {
+            if (tipoUtilizadorAtualizado == null)
+                return BadRequest(ModelState);
+
+            if (tipoUtilizadorId != tipoUtilizadorAtualizado.TipoUtilizadorId)
+                return BadRequest(ModelState);
+
+            if (!_tipoUtilizadorRepository.TipoUtilizadorExists(tipoUtilizadorId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var tipoUtilizadorMap = _mapper.Map<TipoUtilizador>(tipoUtilizadorAtualizado);
+
+            if (!_tipoUtilizadorRepository.AtualizarTipoUtilizador(tipoUtilizadorMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }

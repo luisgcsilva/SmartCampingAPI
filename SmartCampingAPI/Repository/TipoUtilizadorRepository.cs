@@ -13,6 +13,24 @@ namespace SmartCampingAPI.Repository
             _context = context;
         }
 
+        public bool ApagarTipoUtilizador(TipoUtilizador tipoutilizador)
+        {
+            _context.Remove(tipoutilizador);
+            return Save();
+        }
+
+        public bool AtualizarTipoUtilizador(TipoUtilizador tipoUtilizador)
+        {
+            _context.Update(tipoUtilizador);
+            return Save();
+        }
+
+        public bool CriarTipoUtilizador(TipoUtilizador tipoUtilizador)
+        {
+            _context.Add(tipoUtilizador);
+            return Save();
+        }
+
         public TipoUtilizador GetTipoUtilizador(int tipoUtilizadorId)
         {
             return _context.TipoUtilizadores.Where(t => t.TipoUtilizadorId == tipoUtilizadorId).FirstOrDefault();
@@ -32,6 +50,12 @@ namespace SmartCampingAPI.Repository
         {
             return _context.Utilizadores.Where(
                 u => u.TipoUtilizadorId == tipoUtilizadorId).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool TipoUtilizadorExists(int tipoUtilizadorId)

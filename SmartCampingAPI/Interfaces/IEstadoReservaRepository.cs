@@ -6,6 +6,10 @@ namespace SmartCampingAPI.Interfaces
     {
         ICollection<EstadoReserva> GetEstadoReservas();
         EstadoReserva GetEstadoReserva(int estadoResvId);
+        ICollection<Reserva> GetReservasPorEstado(int estadoResvId);
         bool EstadoReservaExists(int estadoResvId);
+        bool CriarEstadoReserva(EstadoReserva estadoReserva);
+        bool AtualizarEstadoReserva(EstadoReserva estadoReserva);
+        bool Save();
     }
 }

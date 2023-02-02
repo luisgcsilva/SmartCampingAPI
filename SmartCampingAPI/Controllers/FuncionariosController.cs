@@ -49,5 +49,66 @@ namespace SmartCampingAPI.Controllers
 
             return Ok(funcionario);
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CriarFuncionario([FromBody] FuncionarioDto funcionarioCriar)
+        {
+            if (funcionarioCriar == null)
+                return BadRequest();
+
+            var funcionario = _funcionarioRepository.GetFuncionarios()
+                .Where(f => f.Telemovel == funcionarioCriar.Telemovel)
+                .FirstOrDefault();
+
+            if (funcionario != null)
+            {
+                ModelState.AddModelError("", "O funcionário já existe!");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var funcionarioMap = _mapper.Map<Funcionario>(funcionarioCriar);
+
+            if (!_funcionarioRepository.CriarFuncionario(funcionarioMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Funcionario criado com sucesso!");
+        }
+
+        [HttpPut("{funcionarioId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateFuncionario(int funcionarioId, [FromBody] FuncionarioDto funcionarioAtualizado)
+        {
+            if (funcionarioAtualizado == null)
+                return BadRequest(ModelState);
+
+            if (funcionarioId != funcionarioAtualizado.FuncionarioId)
+                return BadRequest(ModelState);
+
+            if (!_funcionarioRepository.FuncionarioExtists(funcionarioId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var funcionarioMap = _mapper.Map<Funcionario>(funcionarioAtualizado);
+
+            if (!_funcionarioRepository.AtualizarFuncionario(funcionarioMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

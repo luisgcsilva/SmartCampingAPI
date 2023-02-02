@@ -8,5 +8,8 @@ namespace SmartCampingAPI.Interfaces
         TipoAlojamento GetTipoAlojamento(int tipoAlojamentoId);
         ICollection<Reserva> GetReservasPorTipoAlojamento(int tipoAlojamentoId);
         bool TipoAlojamentoExists(int tipoAlojamentoId);
+        bool CriarTipoAlojamento(TipoAlojamento tipoAlojamento);
+        bool AtualizarTipoAlojamento(TipoAlojamento tipoAlojamento);
+        bool Save();
     }
 }

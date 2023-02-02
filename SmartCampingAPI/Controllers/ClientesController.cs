@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SmartCampingAPI.Data;
 using SmartCampingAPI.Dto;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
@@ -59,67 +52,79 @@ namespace SmartCampingAPI.Controllers
             return Ok(cliente);
         }
 
-        // PUT: api/Clientes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-       /* [HttpPut("{id}")]
-        public async Task<IActionResult> PutCliente(int id, Cliente cliente)
+        [HttpGet("{id}/reservas")]
+        [ProducesResponseType(200, Type = typeof(Reserva))] // Not actually needed
+        [ProducesResponseType(400)]
+        public IActionResult GetReservasPorCliente(int id)
         {
-            if (id != cliente.ClienteId)
-            {
+            var reservasCliente = _mapper.Map<List<ReservaDto>>
+                (_clienteRepository.GetReservasPorCliente(id));
+
+            if (!ModelState.IsValid)
                 return BadRequest();
-            }
 
-            _context.Entry(cliente).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClienteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(reservasCliente);
         }
 
-        // POST: api/Clientes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CriarCliente([FromBody] ClienteDto clienteCriar)
         {
-            _context.Clientes.Add(cliente);
-            await _context.SaveChangesAsync();
+            if (clienteCriar == null)
+                return BadRequest();
 
-            return CreatedAtAction("GetCliente", new { id = cliente.ClienteId }, cliente);
-        }
+            var cliente = _clienteRepository.GetClientes()
+                .Where(c => c.NIF == clienteCriar.NIF)
+                .FirstOrDefault();
 
-        // DELETE: api/Clientes/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCliente(int id)
-        {
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente == null)
+            if (cliente != null)
             {
-                return NotFound();
+                ModelState.AddModelError("", "O cliente já existe!");
+                return StatusCode(422, ModelState);
             }
 
-            _context.Clientes.Remove(cliente);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var clienteMap = _mapper.Map<Cliente>(clienteCriar);
+
+            if (!_clienteRepository.CriarCliente(clienteMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Cliente criado com sucesso!");
+        }
+
+        [HttpPut("{clienteId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCliente(int clienteId, [FromBody] ClienteDto clienteAtualizado)
+        {
+            if (clienteAtualizado == null)
+                return BadRequest(ModelState);
+
+            if (clienteId != clienteAtualizado.ClienteId)
+                return BadRequest(ModelState);
+
+            if (!_clienteRepository.ClienteExists(clienteId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var clienteMap = _mapper.Map<Cliente>(clienteAtualizado);
+
+            if (!_clienteRepository.AtualizarCliente(clienteMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating!");
+                return StatusCode(500, ModelState);
+            }
 
             return NoContent();
         }
-
-        private bool ClienteExists(int id)
-        {
-            return _context.Clientes.Any(e => e.ClienteId == id);
-        }*/
     }
 }

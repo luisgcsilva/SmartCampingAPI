@@ -18,6 +18,18 @@ namespace SmartCampingAPI.Repository
             return _context.Alojamentos.Any(a => a.AlojamentoId == alojamentoid);
         }
 
+        public bool AtualizarAlojamento(Alojamento alojamento)
+        {
+            _context.Update(alojamento);
+            return Save();
+        }
+
+        public bool CriarAlojamento(Alojamento alojamento)
+        {
+            _context.Add(alojamento);
+            return Save();
+        }
+
         public Alojamento GetAlojamento(int alojamentoid)
         {
             return _context.Alojamentos.Where(a => a.AlojamentoId == alojamentoid).FirstOrDefault();
@@ -31,6 +43,12 @@ namespace SmartCampingAPI.Repository
         public ICollection<Reserva> GetReservasPorAlojamento(int alojamentoId)
         {
             return _context.Reservas.Where(r => r.AlojamentoId == alojamentoId).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }
