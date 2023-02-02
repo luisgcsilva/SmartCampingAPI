@@ -7,6 +7,7 @@ namespace SmartCampingAPI.Interfaces
         ICollection<TipoUtilizador> GetTipoUtilizadores();
         TipoUtilizador GetTipoUtilizador(int tipoUtilizadorId);
         TipoUtilizador GetTipoUtilizador(string tipo);
+        ICollection<Utilizador> GetUtilizadoresPorTipo(int tipoUtilizadorId);
         bool TipoUtilizadorExists(int tipoUtilizadorId);
     }
 }

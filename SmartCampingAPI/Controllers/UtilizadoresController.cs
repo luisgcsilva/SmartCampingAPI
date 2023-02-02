@@ -24,7 +24,8 @@ namespace SmartCampingAPI.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Utilizador>))] // Not actually needed
         public IActionResult GetUtilizadores()
         {
-            var utilizadores = _mapper.Map<List<UtilizadorDto>>(_utilizadorRepository.GetUtilizadores());
+            var utilizadores = _mapper.Map<List<UtilizadorDto>>
+                (_utilizadorRepository.GetUtilizadores());
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -32,15 +33,16 @@ namespace SmartCampingAPI.Controllers
             return Ok(utilizadores);
         }
 
-        [HttpGet("{utilizadorId}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Utilizador))] // Not actually needed
         [ProducesResponseType(400)]
-        public IActionResult GetUtilizador(int utilizadorId)
+        public IActionResult GetUtilizador(int id)
         {
-            if (!_utilizadorRepository.UtilizadorExists(utilizadorId))
+            if (!_utilizadorRepository.UtilizadorExists(id))
                 return NotFound();
 
-            var utilizador = _mapper.Map<UtilizadorDto>(_utilizadorRepository.GetUtilizador(utilizadorId));
+            var utilizador = _mapper.Map<UtilizadorDto>
+                (_utilizadorRepository.GetUtilizador(id));
 
             if (!ModelState.IsValid)
                 return BadRequest();

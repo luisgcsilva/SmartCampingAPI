@@ -28,6 +28,12 @@ namespace SmartCampingAPI.Repository
             return _context.TipoUtilizadores.OrderBy(p => p.TipoUtilizadorId).ToList();
         }
 
+        public ICollection<Utilizador> GetUtilizadoresPorTipo(int tipoUtilizadorId)
+        {
+            return _context.Utilizadores.Where(
+                u => u.TipoUtilizadorId == tipoUtilizadorId).ToList();
+        }
+
         public bool TipoUtilizadorExists(int tipoUtilizadorId)
         {
             return _context.TipoUtilizadores.Any(t => t.TipoUtilizadorId == tipoUtilizadorId);

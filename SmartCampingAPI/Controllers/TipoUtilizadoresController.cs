@@ -40,16 +40,16 @@ namespace SmartCampingAPI.Controllers
             return Ok(tipoUtilizadores);
         }
 
-        [HttpGet("{tipoUtilizadorId}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(200,  Type = typeof(TipoUtilizador))]
         [ProducesResponseType(400)]
-        public IActionResult GetTipoUtilizador(int tipoUtilizadorId)
+        public IActionResult GetTipoUtilizador(int id)
         {
-            if(!_tipoUtilizadorRepository.TipoUtilizadorExists(tipoUtilizadorId))
+            if(!_tipoUtilizadorRepository.TipoUtilizadorExists(id))
                 return NotFound();
 
             var tipoUtilizador = _mapper.Map<TipoUtilizadorDto>
-                (_tipoUtilizadorRepository.GetTipoUtilizador(tipoUtilizadorId));
+                (_tipoUtilizadorRepository.GetTipoUtilizador(id));
 
             if(!ModelState.IsValid)
                 return BadRequest();

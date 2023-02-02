@@ -1,7 +1,6 @@
 ﻿using SmartCampingAPI.Data;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
-using System.Linq;
 
 namespace SmartCampingAPI.Repository
 {
