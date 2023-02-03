@@ -11,6 +11,7 @@ namespace SmartCampingAPI.Interfaces
         bool TipoUtilizadorExists(int tipoUtilizadorId);
         bool CriarTipoUtilizador(TipoUtilizador tipoUtilizador);
         bool AtualizarTipoUtilizador(TipoUtilizador tipoUtilizador);
+        bool ApagarTipoUtilizador(TipoUtilizador tipoutilizador);
         bool Save();
     }
 }

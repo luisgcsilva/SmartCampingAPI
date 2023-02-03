@@ -13,14 +13,6 @@ CREATE TABLE [dbo].[Alojamento](
 	CONSTRAINT [FK_Alojamento_TipoAlojamento] FOREIGN KEY ([TipoAlojamentoId]) REFERENCES [dbo].[TipoAlojamento] ([TipoAlojamentoId]) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE [dbo].[AlojamentoFoto](
-	[AlojamentoFotoId] INT IDENTITY(1,1) NOT NULL,
-	[AlojamentoId] INT NOT NULL,
-	[Foto] VARCHAR NOT NULL,
-	PRIMARY KEY CLUSTERED ([AlojamentoFotoId] ASC),
-    CONSTRAINT [FK_AlojamentoFoto_Alojamento] FOREIGN KEY ([AlojamentoId]) REFERENCES [dbo].[Alojamento] ([AlojamentoId]) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 CREATE TABLE [dbo].[MetodoPagamento](
 	[MetodoPagamentoId] INT IDENTITY(1,1) NOT NULL,
 	[Metodo] VARCHAR(50) NOT NULL,

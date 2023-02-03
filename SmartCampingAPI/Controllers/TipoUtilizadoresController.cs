@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SmartCampingAPI.Data;
+using SmartCamping.Filter;
 using SmartCampingAPI.Dto;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
-using SmartCampingAPI.Repository;
 
 namespace SmartCampingAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("smartcamping/[controller]")]
     [ApiController]
+    [TokenFilter]
     public class TipoUtilizadoresController : ControllerBase
     {
         private readonly ITipoUtilizadorRepository _tipoUtilizadorRepository;
@@ -127,6 +121,29 @@ namespace SmartCampingAPI.Controllers
             if (!_tipoUtilizadorRepository.AtualizarTipoUtilizador(tipoUtilizadorMap))
             {
                 ModelState.AddModelError("", "Something went wrong while updating!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{tipoUtilizadorId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult ApagarTipoUtilizador(int tipoUtilizadorId)
+        {
+            if(!_tipoUtilizadorRepository.TipoUtilizadorExists(tipoUtilizadorId))
+                return NotFound();
+
+            var tipoUtilizadorApagar = _tipoUtilizadorRepository.GetTipoUtilizador(tipoUtilizadorId);
+
+            if(!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
+            if(!_tipoUtilizadorRepository.ApagarTipoUtilizador(tipoUtilizadorApagar))
+            {
+                ModelState.AddModelError("", "Something went wrong while deleting!");
                 return StatusCode(500, ModelState);
             }
 

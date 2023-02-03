@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SmartCamping.Filter;
 using SmartCampingAPI.Dto;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
@@ -7,9 +8,10 @@ using SmartCampingAPI.Repository;
 
 namespace SmartCampingAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("smartcamping/[controller]")]
     [ApiController]
-    public class MetodoPagamentosController : Controller
+    [TokenFilter]
+    public class MetodoPagamentosController : ControllerBase
     {
         private readonly IMetodoPagamentoRepository _metodoPagamentoRepository;
         private readonly IMapper _mapper;

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SmartCamping.Filter;
 using SmartCampingAPI.Dto;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
@@ -7,9 +8,10 @@ using SmartCampingAPI.Repository;
 
 namespace SmartCampingAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("smartcamping/[controller]")]
     [ApiController]
-    public class TipoAlojamentosController : Controller
+    [TokenFilter]
+    public class TipoAlojamentosController : ControllerBase
     {
         private readonly ITipoAlojamentoRepository _tipoAlojamentoRepository;
         private readonly IMapper _mapper;
@@ -66,7 +68,7 @@ namespace SmartCampingAPI.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CriarTipoAlojamento([FromBody] TipoAlojamentoDto tipoAlojamentoCriar)
+        public IActionResult CriarTipoAlojamento(TipoAlojamentoDto tipoAlojamentoCriar)
         {
             if (tipoAlojamentoCriar == null)
                 return BadRequest();
