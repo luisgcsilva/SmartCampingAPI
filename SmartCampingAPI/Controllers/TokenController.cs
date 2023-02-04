@@ -14,6 +14,7 @@ namespace SmartCampingAPI.Controllers
             _tokenManager = tokenManager;
         }
 
+        [HttpGet]
         public IActionResult GetToken()
         {
             return Ok(_tokenManager.GenerateToken());

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SmartCamping.Models;
 using SmartCampingAPI.Data;
 using SmartCampingAPI.Interfaces;
@@ -10,8 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddSingleton<ITokenManager, TokenManager>();
 builder.Services.AddControllers();
-builder.Services.AddControllers().AddJsonOptions(
-    x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddMvc()
+        .AddNewtonsoftJson(
+          options => {
+              options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+          });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IAlojamentoRepository, AlojamentoRepository>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();

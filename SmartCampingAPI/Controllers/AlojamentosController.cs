@@ -52,12 +52,12 @@ namespace SmartCampingAPI.Controllers
             return Ok(alojamento);
         }
 
-        [HttpGet("reservas/{alojamentoId}")]
+        [HttpGet("reservas/{id}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Reserva>))] // Not actually needed
         [ProducesResponseType(400)]
-        public IActionResult GetReservasPorAlojamento(int alojamentoId)
+        public IActionResult GetReservasPorAlojamento(int id)
         {
-            var reservas = _alojamentoRepository.GetReservasPorAlojamento(alojamentoId);
+            var reservas = _alojamentoRepository.GetReservasPorAlojamento(id);
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -88,19 +88,16 @@ namespace SmartCampingAPI.Controllers
             return Ok("Alojamento criado com sucesso!");
         }
 
-        [HttpPut("{alojamentoId}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateAlojamento(int alojamentoId, [FromBody] AlojamentoDto alojamentoAtualizado)
+        public IActionResult PutAlojamento([FromBody] AlojamentoDto alojamentoAtualizado)
         {
             if (alojamentoAtualizado == null)
                 return BadRequest(ModelState);
 
-            if(alojamentoId != alojamentoAtualizado.AlojamentoId)
-                return BadRequest(ModelState);
-
-            if(!_alojamentoRepository.AlojamentoExists(alojamentoId))
+            if(!_alojamentoRepository.AlojamentoExists(alojamentoAtualizado.AlojamentoId))
                 return NotFound();
 
             if (!ModelState.IsValid)

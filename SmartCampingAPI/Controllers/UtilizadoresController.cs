@@ -10,7 +10,6 @@ namespace SmartCampingAPI.Controllers
 {
     [Route("smartcamping/[controller]")]
     [ApiController]
-    [TokenFilter]
     public class UtilizadoresController : ControllerBase
     {
         private readonly IUtilizadorRepository _utilizadorRepository;
@@ -113,5 +112,4 @@ namespace SmartCampingAPI.Controllers
             return NoContent();
         }
     }
-
 }

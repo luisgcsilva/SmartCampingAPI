@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartCamping.Filter;
 using SmartCampingAPI.Dto;
@@ -27,7 +28,7 @@ namespace SmartCampingAPI.Controllers
         public IActionResult GetTipoAlojamentos()
         {
             var tipoAlojamentos = 
-               _mapper.Map<TipoAlojamentoDto>(_tipoAlojamentoRepository.GetTipoAlojamentos());
+               _mapper.Map<List<TipoAlojamentoDto>>(_tipoAlojamentoRepository.GetTipoAlojamentos());
 
             if (!ModelState.IsValid)
                 return BadRequest();

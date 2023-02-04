@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCampingAPI", "SmartCam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCampingWeb", "SmartCampingWeb\SmartCampingWeb.csproj", "{789D8DE5-3DCC-4280-9B1D-3AAE82B6B343}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCamping", "SmartCamping\SmartCamping.csproj", "{5E5E989B-D9A9-469F-9E22-AEFF3ADCC4F1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{789D8DE5-3DCC-4280-9B1D-3AAE82B6B343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{789D8DE5-3DCC-4280-9B1D-3AAE82B6B343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{789D8DE5-3DCC-4280-9B1D-3AAE82B6B343}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E5E989B-D9A9-469F-9E22-AEFF3ADCC4F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E5E989B-D9A9-469F-9E22-AEFF3ADCC4F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E5E989B-D9A9-469F-9E22-AEFF3ADCC4F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E5E989B-D9A9-469F-9E22-AEFF3ADCC4F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

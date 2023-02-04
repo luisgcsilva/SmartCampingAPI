@@ -11,7 +11,7 @@
 
         public Task Invoke(HttpContext httpContext)
         {
-            var user = httpContext.Session.GetString("utilizadorId");
+            var user = httpContext.Session.GetString("userId");
             var token = httpContext.Session.GetString("token");
             var tokenExpiration = httpContext.Session.GetString("tokenExpiration");
 
@@ -32,7 +32,7 @@
                 }
                 else
                 {
-                    httpContext.Response.Redirect("/Home/Index");
+                    httpContext.Response.Redirect("/Alojamentos/Index");
                 }
             }
             return _requestDelegate(httpContext);

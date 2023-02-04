@@ -1,6 +1,4 @@
-﻿using NuGet.Common;
-
-namespace SmartCamping.Models
+﻿namespace SmartCamping.Models
 {
     public interface ITokenManager
     {

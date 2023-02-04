@@ -1,9 +1,11 @@
-﻿namespace SmartCampingAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SmartCampingWeb.Models
 {
     public class TipoAlojamento
     {
         public int TipoAlojamentoId { get; set; }
-        public string Tipo { get; set; }
-        public virtual ICollection<Alojamento> Alojamentos { get; set; }    
+        [Display(Name = "Tipo de Alojamento")]
+        public string Tipo { get; set; } 
     }
 }

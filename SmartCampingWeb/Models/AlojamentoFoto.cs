@@ -1,4 +1,4 @@
-﻿namespace SmartCampingAPI.Models
+﻿namespace SmartCampingWeb.Models
 {
     public class AlojamentoFoto
     {

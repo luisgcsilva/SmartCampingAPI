@@ -26,7 +26,6 @@ namespace SmartCampingAPI.Helper
             CreateMap<TipoUtilizadorDto, TipoUtilizador>();
             CreateMap<Utilizador, UtilizadorDto>();
             CreateMap<UtilizadorDto, Utilizador>();
-            
         }
     }
 }
