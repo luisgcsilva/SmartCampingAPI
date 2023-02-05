@@ -32,7 +32,7 @@
                 }
                 else
                 {
-                    httpContext.Response.Redirect("/Alojamentos/Index");
+                    httpContext.Response.Redirect("/Home/Index");
                 }
             }
             return _requestDelegate(httpContext);

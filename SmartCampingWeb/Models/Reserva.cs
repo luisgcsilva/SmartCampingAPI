@@ -14,11 +14,11 @@ namespace SmartCampingWeb.Models
         [Display(Name = "Estado da Reserva")]
         public int EstadoReservaId { get; set; }
         [Display(Name = "Dia de entrada")]
+        [DataType(DataType.Date)]
         public DateTime DataInicio { get; set; }
         [Display(Name = "Dia de saída")]
+        [DataType(DataType.Date)]
         public DateTime DataFim { get; set; }
-        [Display(Name = "Preço por noite")]
-        public double PrecoNoite { get; set; }
         [Display(Name = "Preço total")]
         public double PrecoTotal { get; set; }
         [Display(Name = "Já pago")]

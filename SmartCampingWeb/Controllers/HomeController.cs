@@ -15,6 +15,7 @@ namespace SmartCampingWeb.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.UserType = HttpContext.Session.GetString("userType");
             return View();
         }
 

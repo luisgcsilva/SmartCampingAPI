@@ -6,15 +6,22 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (ViewBag.UserType != "1")
+{
+    <p>
+        <a asp-action="Create">Adicionar novo Alojamento</a>
+    </p>  
+}
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AlojamentoId)
-            </th>
+            @if(ViewBag.UserType != "1")
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.AlojamentoId)
+                </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.TipoAlojamentoId)
             </th>
@@ -24,29 +31,54 @@
             <th>
                 @Html.DisplayNameFor(model => model.Capacidade)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoNoite)
+            </th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            @if (ViewBag.UserType != "1")
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.AlojamentoId)
+                </td>
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.AlojamentoId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoAlojamentoId)
+                @ViewBag.TipoAlojamentos[item.TipoAlojamentoId - 1].Tipo
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Capacidade)
+            @if (item.Capacidade == 1)
+            {
+                <p>@Html.DisplayFor(modelItem => item.Capacidade) Pessoa</p>
+            }
+            else
+            {
+                <p>@Html.DisplayFor(modelItem => item.Capacidade) Pessoas</p>
+            }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.AlojamentoId  }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.AlojamentoId  }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.DisplayFor(modelItem => item.PrecoNoite)€ por noite
             </td>
+            <td>
+                @Html.ActionLink("Detalhes", "Details", new {  id=item.AlojamentoId  })
+            </td>
+            @if (ViewBag.UserType != "1")
+            {
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new {  id=item.AlojamentoId  })
+                </td>
+                <td>
+                    @Html.ActionLink("Apagar", "Delete", new {  id=item.AlojamentoId  })
+                </td>
+            }
         </tr>
 }
     </tbody>

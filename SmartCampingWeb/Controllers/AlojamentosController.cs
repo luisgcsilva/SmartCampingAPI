@@ -29,8 +29,6 @@ namespace SmartCampingWeb.Controllers
 
             var responseTipo = await client.SendAsync(requestTipoAlojamentos);
 
-            var tipos = new List<TipoAlojamento>();
-
             if (responseTipo.IsSuccessStatusCode)
             {
                 using var responseStream = await responseTipo.Content.ReadAsStreamAsync();
@@ -40,7 +38,6 @@ namespace SmartCampingWeb.Controllers
                         PropertyNameCaseInsensitive = true
                     });
                 ViewBag.TipoAlojamentos = tipoAlojamentos;
-                tipos = tipoAlojamentos;
             }
 
             var requestAlojamentos = new HttpRequestMessage(HttpMethod.Get,
@@ -66,7 +63,7 @@ namespace SmartCampingWeb.Controllers
                 ViewBag.Alojamentos = new List<Alojamento>();
             }
 
-            ViewData["TipoAlojamentoId"] = new SelectList(tipos, "TipoAlojamentoId", "Tipo");
+            ViewBag.UserType = HttpContext.Session.GetString("userType");
 
             return View(list);
         }
@@ -97,6 +94,7 @@ namespace SmartCampingWeb.Controllers
             }
 
             ViewData["TipoAlojamentoId"] = new SelectList(tipos, "TipoAlojamentoId", "Tipo");
+            ViewBag.UserType = HttpContext.Session.GetString("userType");
 
             return View();
         }
@@ -120,6 +118,8 @@ namespace SmartCampingWeb.Controllers
             var response = await client.PostAsJsonAsync(
                 apiPath + "Alojamentos/", alojamento);
             response.EnsureSuccessStatusCode();
+
+            ViewBag.UserType = HttpContext.Session.GetString("userType");
 
             return Redirect("/Alojamentos/Index");
         }
@@ -174,6 +174,8 @@ namespace SmartCampingWeb.Controllers
                 return Redirect("/Alojamentos/Index");
             }
 
+            ViewBag.UserType = HttpContext.Session.GetString("userType");
+
             return View(alojamentoEditar);
         }
 
@@ -212,12 +214,14 @@ namespace SmartCampingWeb.Controllers
 
             await client.SendAsync(requestPutAlojamento);
 
+            ViewBag.UserType = HttpContext.Session.GetString("userType");
+
             return Redirect("/Alojamentos/Index");
         }
 
         [HttpGet]
         [Route("/Alojamentos/Details/{id:int}")]
-        public async Task<IActionResult> DetailS(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var requestAlojamento = new HttpRequestMessage(HttpMethod.Get,
                 apiPath + "Alojamentos/" + id);
@@ -233,17 +237,14 @@ namespace SmartCampingWeb.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                if (response.IsSuccessStatusCode)
-                {
-                    using var stream = await response.Content.ReadAsStreamAsync();
-                    alojamento = await JsonSerializer.DeserializeAsync<Alojamento>
-                        (stream, new JsonSerializerOptions
-                        { PropertyNameCaseInsensitive = true });
-                }
-                else
-                {
-                    return Redirect("/Alojamentos/Index");
-                }
+                using var stream = await response.Content.ReadAsStreamAsync();
+                alojamento = await JsonSerializer.DeserializeAsync<Alojamento>
+                    (stream, new JsonSerializerOptions
+                    { PropertyNameCaseInsensitive = true });
+            }
+            else
+            {
+                return Redirect("/Alojamentos/Index");
             }
 
             var requestTipoAlojamento = new HttpRequestMessage(HttpMethod.Get,
@@ -264,8 +265,11 @@ namespace SmartCampingWeb.Controllers
                 ViewBag.Tipo = tipoAlojamento;
             }
 
+            ViewBag.UserType = HttpContext.Session.GetString("userType");
+            ViewBag.AlojamentoId = alojamento.AlojamentoId;
+            HttpContext.Session.SetString("alojamento", alojamento.AlojamentoId.ToString());
+
             return View(alojamento);
         }
-
     }
 }

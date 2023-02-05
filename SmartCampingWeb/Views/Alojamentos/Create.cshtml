@@ -1,12 +1,10 @@
 ﻿@model SmartCampingWeb.Models.Alojamento
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Adicionar Alojamento";
 }
 
-<h1>Create</h1>
-
-<h4>Alojamento</h4>
+<h2>Criar Alojamento</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -25,6 +23,11 @@
                 <label asp-for="Capacidade" class="control-label"></label>
                 <input asp-for="Capacidade" class="form-control" />
                 <span asp-validation-for="Capacidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecoNoite" class="control-label"></label>
+                <input asp-for="PrecoNoite" class="form-control" />
+                <span asp-validation-for="PrecoNoite" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

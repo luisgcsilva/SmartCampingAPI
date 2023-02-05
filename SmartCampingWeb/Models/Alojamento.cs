@@ -11,5 +11,7 @@ namespace SmartCampingWeb.Models
         public string Descricao { get; set; }
         [Display(Name = "Capacidade")]
         public int Capacidade { get; set; }
+        [Display(Name = "Preço por noite")]
+        public double PrecoNoite { get; set; }
     }
 }

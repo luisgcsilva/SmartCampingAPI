@@ -14,11 +14,13 @@ namespace SmartCampingAPI.Controllers
     public class ClientesController : ControllerBase
     {
         private readonly IClienteRepository _clienteRepository;
+        private readonly IUtilizadorRepository _utilizadorRepository;
         private readonly IMapper _mapper;
 
-        public ClientesController(IClienteRepository clienteRepository, IMapper mapper)
+        public ClientesController(IClienteRepository clienteRepository, IUtilizadorRepository utilizadorRepository, IMapper mapper)
         {
             _clienteRepository = clienteRepository;
+            _utilizadorRepository = utilizadorRepository;
             _mapper = mapper;
         }
 
@@ -49,6 +51,22 @@ namespace SmartCampingAPI.Controllers
                 (_clienteRepository.GetCliente(id));
 
             if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(cliente);
+        }
+
+        [HttpGet("utilizador/{id}")]
+        [ProducesResponseType(200, Type = typeof(Cliente))]
+        [ProducesResponseType(400)]
+        public IActionResult GetClienteUtilizador(int id)
+        {
+            if(!_utilizadorRepository.UtilizadorExists(id))
+                return NotFound();
+
+            var cliente = _mapper.Map<ClienteDto>(_clienteRepository.GetClienteUtilizador(id));
+
+            if(!ModelState.IsValid) 
                 return BadRequest();
 
             return Ok(cliente);

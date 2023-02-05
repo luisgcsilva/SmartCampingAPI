@@ -40,6 +40,11 @@ namespace SmartCampingAPI.Repository
             return _context.Clientes.OrderBy(c => c.Nome).ToList();
         }
 
+        public Cliente GetClienteUtilizador(int utilizadorId)
+        {
+            return _context.Clientes.Where(c => c.UtilizadorId == utilizadorId).FirstOrDefault();
+        }
+
         public ICollection<Reserva> GetReservasPorCliente(int clienteId)
         {
             return _context.Reservas.Where(r => r.ClienteId == clienteId).ToList();

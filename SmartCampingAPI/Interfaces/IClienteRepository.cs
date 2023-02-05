@@ -6,6 +6,7 @@ namespace SmartCampingAPI.Interfaces
     {
         ICollection<Cliente> GetClientes();
         Cliente GetCliente(int clienteId);
+        Cliente GetClienteUtilizador(int utilizadorId);
         bool ClienteExists(int clienteId);
         ICollection<Reserva> GetReservasPorCliente(int clienteId);
         bool CriarCliente(Cliente cliente);

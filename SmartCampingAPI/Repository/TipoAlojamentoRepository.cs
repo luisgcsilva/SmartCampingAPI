@@ -37,7 +37,7 @@ namespace SmartCampingAPI.Repository
 
         public ICollection<TipoAlojamento> GetTipoAlojamentos()
         {
-            return _context.TipoAlojamentos.OrderBy(t => t.Tipo).ToList();
+            return _context.TipoAlojamentos.ToList();
         }
 
         public bool Save()

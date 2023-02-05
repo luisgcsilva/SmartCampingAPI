@@ -6,5 +6,6 @@
         public int TipoAlojamentoId { get; set; }
         public string Descricao { get; set; }
         public int Capacidade { get; set; }
+        public double PrecoNoite { get; set; }
     }
 }

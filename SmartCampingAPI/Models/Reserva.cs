@@ -11,7 +11,6 @@ namespace SmartCampingAPI.Models
         public int EstadoReservaId { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
-        public double PrecoNoite { get; set; }
         public double PrecoTotal { get; set; }
         public double Pagamento { get; set; }
         public virtual Cliente Cliente { get; set; }

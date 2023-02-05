@@ -20,7 +20,6 @@ namespace SmartCampingAPI
                     {
                         DataInicio = new DateTime(2023, 3, 1),
                         DataFim = new DateTime(2023, 3, 3),
-                        PrecoNoite = 23.10,
                         PrecoTotal = 46.20,
                         Pagamento = 46.20,
                         Cliente = new Cliente()
@@ -45,6 +44,7 @@ namespace SmartCampingAPI
                         {
                             Descricao = "Um Bungalow com 2 quartos.",
                             Capacidade = 4,
+                            PrecoNoite = 23.10,
                             TipoAlojamento = new TipoAlojamento()
                             {
                                 Tipo = "Bungalow"

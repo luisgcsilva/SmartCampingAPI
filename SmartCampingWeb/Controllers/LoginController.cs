@@ -145,19 +145,43 @@ namespace SmartCampingWeb.Controllers
                         return Redirect("/");
                     }
 
+                    ViewBag.UserType = user.TipoUtilizadorId.ToString();
                     HttpContext.Session.SetString("userId", user.UtilizadorId.ToString());
+
+                    if (user.TipoUtilizadorId == 1)
+                    {
+                        var requestCliente = new HttpRequestMessage(HttpMethod.Get,
+                            apiPath + "Clientes/utilizador/" + user.UtilizadorId);
+
+                        var token = HttpContext.Session.GetString("token");
+                        client.DefaultRequestHeaders.Add("Token", token);
+
+                        var responseCliente = await client.SendAsync(requestCliente);
+
+                        if(responseCliente.IsSuccessStatusCode)
+                        {
+                            using var stream = await responseCliente.Content.ReadAsStreamAsync();
+                            var cliente = await JsonSerializer.DeserializeAsync
+                                <Cliente>(stream, new JsonSerializerOptions
+                                { PropertyNameCaseInsensitive = true});
+
+                            HttpContext.Session.SetString("clienteId", cliente.ClienteId.ToString());
+                        }
+                    }
+
                     HttpContext.Session.SetString("userType", user.TipoUtilizadorId.ToString());
-                    return Redirect("/Alojamentos/Index");
+                    return Redirect("/Home/Index");
                 }
             }
 
             HttpContext.Session.SetString("loginError", "Login Error");
-            return Redirect("/Alojamentos/Index");
+            return Redirect("/Home/Index");
         }
 
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
+            ViewBag.UserType = null;
             return Redirect("/");
         }
     }
