@@ -5,6 +5,7 @@ using SmartCampingAPI.Dto;
 using SmartCampingAPI.Interfaces;
 using SmartCampingAPI.Models;
 using SmartCampingAPI.Repository;
+using System.Web.Helpers;
 
 namespace SmartCampingAPI.Controllers
 {
@@ -100,6 +101,8 @@ namespace SmartCampingAPI.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest();
+
+            utilizadorAtualizado.PalavraPasse = Crypto.HashPassword(utilizadorAtualizado.PalavraPasse);
 
             var utilizadorMap = _mapper.Map<Utilizador>(utilizadorAtualizado);
 

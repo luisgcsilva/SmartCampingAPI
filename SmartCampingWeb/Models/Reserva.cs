@@ -23,9 +23,5 @@ namespace SmartCampingWeb.Models
         public double PrecoTotal { get; set; }
         [Display(Name = "Já pago")]
         public double Pagamento { get; set; }
-        public virtual Cliente Cliente { get; set; }
-        public virtual Alojamento Alojamento { get; set; }
-        public virtual MetodoPagamento MetodoPagamento { get; set; }
-        public virtual EstadoReserva EstadoReserva { get; set; }
     }
 }

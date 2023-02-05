@@ -37,7 +37,7 @@ namespace SmartCampingAPI.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Reserva))] // Not actually needed
         [ProducesResponseType(400)]
-        public IActionResult GetUtilizador(int id)
+        public IActionResult GetReserva(int id)
         {
             if (!_reservaRepository.ReservaExists(id))
                 return NotFound();

@@ -266,5 +266,6 @@ namespace SmartCampingWeb.Controllers
 
             return View(alojamento);
         }
+
     }
 }

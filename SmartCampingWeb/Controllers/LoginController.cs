@@ -146,6 +146,7 @@ namespace SmartCampingWeb.Controllers
                     }
 
                     HttpContext.Session.SetString("userId", user.UtilizadorId.ToString());
+                    HttpContext.Session.SetString("userType", user.TipoUtilizadorId.ToString());
                     return Redirect("/Alojamentos/Index");
                 }
             }
