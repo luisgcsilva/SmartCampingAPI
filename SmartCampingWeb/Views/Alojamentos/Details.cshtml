@@ -8,7 +8,7 @@
 
 @if(ViewBag.UserType == "1")
 {
-    <input asp-controller="Reservas" asp-action="Create" value="Reservar" class="btn btn-primary" />
+    <a asp-controller="Reservas" asp-action="Create" class="btn btn-primary">Efetuar Reserva</a>    
 }
 
 <div>
@@ -40,12 +40,12 @@
                 <p>@Html.DisplayFor(model => model.Capacidade) Pessoas</p>
             }
         </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayNameFor(model => model.PrecoNoite)
-        </dd>
         <dt class="col-sm-2">
-            @Html.DisplayFor(model => model.PrecoNoite)€ por noite.
+            @Html.DisplayNameFor(model => model.PrecoNoite)
         </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PrecoNoite)€ por noite.
+        </dd>
     </dl>
 </div>
 <div>

@@ -108,27 +108,6 @@ namespace SmartCampingAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AlojamentoFoto",
-                columns: table => new
-                {
-                    AlojamentoFotoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AlojamentoId = table.Column<int>(type: "int", nullable: false),
-                    Foto = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AlojamentoFoto", x => x.AlojamentoFotoId);
-                    table.ForeignKey(
-                        name: "FK_AlojamentoFoto_Alojamentos_AlojamentoId",
-                        column: x => x.AlojamentoId,
-                        principalTable: "Alojamentos",
-                        principalColumn: "AlojamentoId",
-                        onDelete: ReferentialAction.Cascade,
-                        onUpdate: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
                 {
@@ -225,10 +204,6 @@ namespace SmartCampingAPI.Migrations
                         onUpdate: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_AlojamentoFoto_AlojamentoId",
-                table: "AlojamentoFoto",
-                column: "AlojamentoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alojamentos_TipoAlojamentoId",
@@ -274,9 +249,6 @@ namespace SmartCampingAPI.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AlojamentoFoto");
-
             migrationBuilder.DropTable(
                 name: "Funcionarios");
 

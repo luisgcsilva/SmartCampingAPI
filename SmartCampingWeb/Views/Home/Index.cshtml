@@ -3,6 +3,39 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Bem-vindo ao SmartCamping Website!</h1>
+    <br />
+    <hr />
+
+    <h2>O que pretende fazer?</h2>
+    <br />
+    @if(ViewBag.UserType == null)
+    {
+        <div class="text-center">
+        <a asp-controller="Login" asp-action="Index" class="btn btn-primary">Login</a>
+        </div>
+        <br />
+        <div class="text-center">
+            <a asp-controller="Login" asp-action="Register" class="btn btn-primary">Criar Conta</a>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <a asp-controller="Alojamentos" asp-action="Index" class="btn btn-primary">
+                Ver Alojamentos
+            </a>
+        </div>
+        <br />
+        <div class="text-center">
+            @if (ViewBag.UserType == "1")
+            {
+                <a asp-controller="Reservas" asp-action="Index" class="btn btn-primary">Consultar as minhas Reservas</a>
+            }
+            else
+            {
+                <a asp-controller="Reservas" asp-action="Index" class="btn btn-primary">Consultar todas as Reservas</a>
+            }
+        </div>
+    }
 </div>

@@ -8,6 +8,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        @if (ViewBag.Error != null && ViewBag.Error)
+        {
+            <div class="alert alert-danger">A data final tem de ser antes da data inicial!</div>
+        }
         <form method="post" asp-controller="Reservas" asp-action="Store">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">

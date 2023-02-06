@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SmartCampingWeb.Models;
 using System.Net.Http.Headers;
@@ -151,59 +152,64 @@ namespace SmartCampingWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Store(Reserva reserva)
         {
-            var requestPostReserva = new HttpRequestMessage(HttpMethod.Post,
-                apiPath + "Reservas/");
-
-            var aloj = HttpContext.Session.GetString("alojamento").AsInt();
-
-            var requestAlojamento = new HttpRequestMessage(HttpMethod.Get,
-                apiPath + "Alojamentos/" + aloj);
-
-            var client = _clientFactory.CreateClient();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var token = HttpContext.Session.GetString("token");
-            client.DefaultRequestHeaders.Add("Token", token);
-
-            var responseA = await client.SendAsync(requestAlojamento);
-
-            var alojamento = new Alojamento();
-
-            if (responseA.IsSuccessStatusCode)
+            if (reserva.DataFim.DayOfYear > reserva.DataInicio.DayOfYear)
             {
-                using var stream = await responseA.Content.ReadAsStreamAsync();
-                alojamento = await JsonSerializer.DeserializeAsync<Alojamento>
-                    (stream, new JsonSerializerOptions
-                    { PropertyNameCaseInsensitive = true });
+                var requestPostReserva = new HttpRequestMessage(HttpMethod.Post,
+                    apiPath + "Reservas/");
+
+                var aloj = HttpContext.Session.GetString("alojamento").AsInt();
+
+                var requestAlojamento = new HttpRequestMessage(HttpMethod.Get,
+                    apiPath + "Alojamentos/" + aloj);
+
+                var client = _clientFactory.CreateClient();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var token = HttpContext.Session.GetString("token");
+                client.DefaultRequestHeaders.Add("Token", token);
+
+                var responseA = await client.SendAsync(requestAlojamento);
+
+                var alojamento = new Alojamento();
+
+                if (responseA.IsSuccessStatusCode)
+                {
+                    using var stream = await responseA.Content.ReadAsStreamAsync();
+                    alojamento = await JsonSerializer.DeserializeAsync<Alojamento>
+                        (stream, new JsonSerializerOptions
+                        { PropertyNameCaseInsensitive = true });
+                }
+
+                var cliente = HttpContext.Session.GetString("clienteId").AsInt();
+                var precoNoite = alojamento.PrecoNoite * (reserva.DataFim.DayOfYear - reserva.DataInicio.DayOfYear);
+
+                var novaReserva = new Reserva()
+                {
+                    ClienteId = cliente,
+                    AlojamentoId = aloj,
+                    MetodoPagamentoId = reserva.MetodoPagamentoId,
+                    EstadoReservaId = 1,
+                    DataInicio = reserva.DataInicio,
+                    DataFim = reserva.DataFim,
+                    PrecoTotal = precoNoite,
+                    Pagamento = 0
+                };
+
+                requestPostReserva.Content = new StringContent(
+                    JsonSerializer.Serialize(novaReserva,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }),
+                    Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsJsonAsync(
+                    apiPath + "Reservas/", novaReserva);
+                response.EnsureSuccessStatusCode();
+
+                ViewBag.UserType = HttpContext.Session.GetString("userType");
+                HttpContext.Session.SetString("alojamento", "");
+
+                return Redirect("/Reservas/Index");
             }
 
-            var cliente = HttpContext.Session.GetString("clienteId").AsInt();
-            var precoNoite = alojamento.PrecoNoite * (reserva.DataFim.DayOfYear - reserva.DataInicio.DayOfYear);
-
-            var novaReserva = new Reserva()
-            {
-                ClienteId = cliente,
-                AlojamentoId = aloj,
-                MetodoPagamentoId = reserva.MetodoPagamentoId,
-                EstadoReservaId = 1,
-                DataInicio = reserva.DataInicio,
-                DataFim = reserva.DataFim,
-                PrecoTotal = precoNoite,
-                Pagamento = 0
-            };
-
-            requestPostReserva.Content = new StringContent(
-                JsonSerializer.Serialize(novaReserva, 
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true}), 
-                Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsJsonAsync(
-                apiPath + "Reservas/", novaReserva);
-            response.EnsureSuccessStatusCode();
-
-            ViewBag.UserType = HttpContext.Session.GetString("userType");
-            HttpContext.Session.SetString("alojamento", null);
-
-            return Redirect("/Reservas/Index");
+            return Redirect("/Reservas/Create");
         }
     }
 }

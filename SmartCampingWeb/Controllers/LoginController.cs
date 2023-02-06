@@ -175,7 +175,7 @@ namespace SmartCampingWeb.Controllers
             }
 
             HttpContext.Session.SetString("loginError", "Login Error");
-            return Redirect("/Home/Index");
+            return Redirect("/Login/Index");
         }
 
         public IActionResult Logout()

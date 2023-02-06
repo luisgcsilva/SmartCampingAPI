@@ -47,28 +47,6 @@ namespace SmartCampingAPI.Migrations
                     b.ToTable("Alojamentos");
                 });
 
-            modelBuilder.Entity("SmartCampingAPI.Models.AlojamentoFoto", b =>
-                {
-                    b.Property<int>("AlojamentoFotoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlojamentoFotoId"));
-
-                    b.Property<int>("AlojamentoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Foto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AlojamentoFotoId");
-
-                    b.HasIndex("AlojamentoId");
-
-                    b.ToTable("AlojamentoFoto");
-                });
-
             modelBuilder.Entity("SmartCampingAPI.Models.Cliente", b =>
                 {
                     b.Property<int>("ClienteId")
@@ -291,17 +269,6 @@ namespace SmartCampingAPI.Migrations
                     b.Navigation("TipoAlojamento");
                 });
 
-            modelBuilder.Entity("SmartCampingAPI.Models.AlojamentoFoto", b =>
-                {
-                    b.HasOne("SmartCampingAPI.Models.Alojamento", "Alojamento")
-                        .WithMany("AlojamentoFotos")
-                        .HasForeignKey("AlojamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Alojamento");
-                });
-
             modelBuilder.Entity("SmartCampingAPI.Models.Cliente", b =>
                 {
                     b.HasOne("SmartCampingAPI.Models.Utilizador", "Utilizador")
@@ -372,8 +339,6 @@ namespace SmartCampingAPI.Migrations
 
             modelBuilder.Entity("SmartCampingAPI.Models.Alojamento", b =>
                 {
-                    b.Navigation("AlojamentoFotos");
-
                     b.Navigation("Reservas");
                 });
 
