@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmartCampingWeb.Models;
-using System.Diagnostics;
 
 namespace SmartCampingWeb.Controllers
 {
@@ -17,17 +15,6 @@ namespace SmartCampingWeb.Controllers
         {
             ViewBag.UserType = HttpContext.Session.GetString("userType");
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        } 
     }
 }

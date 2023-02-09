@@ -62,19 +62,13 @@
             @Html.DisplayNameFor(model => model.PrecoTotal)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecoTotal)
+            @Html.DisplayFor(model => model.PrecoTotal)€
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Pagamento)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pagamento)
+            @Html.DisplayFor(model => model.Pagamento)€
         </dd>
     </dl>
-</div>
-<div>
-    @if(ViewBag.UserType != "1")
-    {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ReservaId })
-    }
 </div>

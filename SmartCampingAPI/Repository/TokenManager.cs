@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace SmartCamping.Models
+﻿namespace SmartCamping.Models
 {
     public class TokenManager : ITokenManager
     {
@@ -24,7 +20,8 @@ namespace SmartCamping.Models
 
         public bool VerifyToken(string token)
         {
-            return this.tokensList.Any(t => t.Value == token && t.ExpirationDate > DateTime.Now);
+            return this.tokensList.Any(t => t.Value == token 
+                && t.ExpirationDate > DateTime.Now);
         }
     }
 }

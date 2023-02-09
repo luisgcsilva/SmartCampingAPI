@@ -5,7 +5,9 @@ namespace SmartCampingWeb.Models
 {
     public class Reserva
     {
+        [Display(Name = "ID da Reserva")]
         public int ReservaId { get; set; }
+        [Display(Name = "ID do Cliente")]
         public int ClienteId { get; set; }
         [Display(Name = "Alojamento")]
         public int AlojamentoId { get; set; }

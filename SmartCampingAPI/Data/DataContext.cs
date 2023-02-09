@@ -16,6 +16,5 @@ namespace SmartCampingAPI.Data
         public DbSet<TipoAlojamento> TipoAlojamentos { get; set; }
         public DbSet<TipoUtilizador> TipoUtilizadores { get; set; }
         public DbSet<Utilizador> Utilizadores { get; set; }
-        public DbSet<AlojamentoFoto> AlojamentoFoto { get; set; }
     }
 }
