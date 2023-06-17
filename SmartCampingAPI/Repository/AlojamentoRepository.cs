@@ -30,6 +30,11 @@ namespace SmartCampingAPI.Repository
             return Save();
         }
 
+        public ICollection<Alojamento> GetAlojamentosPorTipo(int tipoAlojamentoId)
+        {
+            return _context.Alojamentos.Where(a => a.TipoAlojamentoId == tipoAlojamentoId).ToList();
+        }
+
         public Alojamento GetAlojamento(int alojamentoid)
         {
             return _context.Alojamentos.Where(a => a.AlojamentoId == alojamentoid).FirstOrDefault();

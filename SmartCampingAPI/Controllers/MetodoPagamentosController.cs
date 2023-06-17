@@ -10,7 +10,6 @@ namespace SmartCampingAPI.Controllers
 {
     [Route("smartcamping/[controller]")]
     [ApiController]
-    [TokenFilter]
     public class MetodoPagamentosController : ControllerBase
     {
         private readonly IMetodoPagamentoRepository _metodoPagamentoRepository;

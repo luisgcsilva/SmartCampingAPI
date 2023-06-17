@@ -70,6 +70,7 @@ namespace SmartCampingAPI.Migrations
                     AlojamentoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TipoAlojamentoId = table.Column<int>(type: "int", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Capacidade = table.Column<int>(type: "int", nullable: false)
                 },

@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[TipoAlojamento](
 CREATE TABLE [dbo].[Alojamento](
 	[AlojamentoId] INT IDENTITY(1,1) NOT NULL,
 	[TipoAlojamentoId] INT NOT NULL,
+	[Nome] VARCHAR(MAX) NOT NULL,
 	[Descricao] VARCHAR(50) NOT NULL,
 	[Capacidade] INT NOT NULL,
 	PRIMARY KEY CLUSTERED ([AlojamentoId] ASC),
@@ -79,4 +80,12 @@ CREATE TABLE [dbo].[Reserva](
 	CONSTRAINT [FK_Reserva_Alojamento] FOREIGN KEY ([AlojamentoId]) REFERENCES [dbo].[Alojamento] ([AlojamentoId]) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT [FK_Reserva_MetodoPag] FOREIGN KEY ([MetodoId]) REFERENCES [dbo].[MetodoPagamento] ([MetodoPagamentoId]) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT [FK_Reserva_EstadoReserva] FOREIGN KEY ([EstadoId]) REFERENCES [dbo].[EstadoReserva] ([EstadoReservaId]) ON DELETE CASCADE ON UPDATE CASCADE,
+);
+
+CREATE TABLE [dbo].[AlojamentoFotos](
+	[AlojamentoFotosId] INT IDENTITY(1,1) NOT NULL,
+	[AlojamentoId] INT NOT NULL,
+	[Caminho] nvarchar(max) NOT NULL,
+	PRIMARY KEY CLUSTERED ([AlojamentoFotosId] ASC),
+	CONSTRAINT [FK_AlojamentoFotos_Alojamento] FOREIGN KEY ([AlojamentoId]) REFERENCES [dbo].[Alojamentos] ([AlojamentoId]) ON DELETE CASCADE ON UPDATE CASCADE
 );

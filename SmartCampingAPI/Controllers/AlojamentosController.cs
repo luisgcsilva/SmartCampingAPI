@@ -10,7 +10,6 @@ namespace SmartCampingAPI.Controllers
 {
     [Route("smartcamping/[controller]")]
     [ApiController]
-    [TokenFilter]
     public class AlojamentosController : ControllerBase
     {
         private readonly IAlojamentoRepository _alojamentoRepository;
@@ -50,6 +49,19 @@ namespace SmartCampingAPI.Controllers
                 return BadRequest();
 
             return Ok(alojamento);
+        }
+
+        [HttpGet("t/{tipoAlojamentoId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Alojamento>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAlojamentosByTipo(int tipoAlojamentoId)
+        {
+            var alojamentos = _alojamentoRepository.GetAlojamentosPorTipo(tipoAlojamentoId);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(alojamentos);
         }
 
         [HttpGet("reservas/{id}")]

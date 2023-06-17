@@ -18,6 +18,7 @@ builder.Services.AddMvc()
           });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IAlojamentoRepository, AlojamentoRepository>();
+builder.Services.AddScoped<IAlojamentoFotosRepository, AlojamentoFotosRepository>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IEstadoReservaRepository, EstadoReservaRepository>();
 builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
@@ -29,6 +30,16 @@ builder.Services.AddScoped<IUtilizadorRepository, UtilizadorRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
@@ -49,6 +60,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseCors();
 
 app.UseEndpoints(endpoints =>
 {

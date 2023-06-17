@@ -37,6 +37,10 @@ namespace SmartCampingAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("PrecoNoite")
                         .HasColumnType("float");
 

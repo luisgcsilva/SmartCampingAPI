@@ -9,7 +9,6 @@ namespace SmartCampingAPI.Controllers
 {
     [Route("smartcamping/[controller]")]
     [ApiController]
-    [TokenFilter]
     public class TipoUtilizadoresController : ControllerBase
     {
         private readonly ITipoUtilizadorRepository _tipoUtilizadorRepository;

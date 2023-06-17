@@ -8,6 +8,7 @@ namespace SmartCampingAPI.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Alojamento> Alojamentos { get; set; }
+        public DbSet<AlojamentoFotos> AlojamentoFotos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<EstadoReserva> EstadoReservas { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }

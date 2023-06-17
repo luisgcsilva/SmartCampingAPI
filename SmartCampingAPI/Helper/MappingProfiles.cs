@@ -10,6 +10,8 @@ namespace SmartCampingAPI.Helper
         {
             CreateMap<Alojamento, AlojamentoDto>();
             CreateMap<AlojamentoDto, Alojamento>();
+            CreateMap<AlojamentoFotos, AlojamentoFotosDto>();
+            CreateMap<AlojamentoFotosDto, AlojamentoFotos>();
             CreateMap<Cliente, ClienteDto>();
             CreateMap<ClienteDto, Cliente>(); 
             CreateMap<EstadoReserva, EstadoReservaDto>();
