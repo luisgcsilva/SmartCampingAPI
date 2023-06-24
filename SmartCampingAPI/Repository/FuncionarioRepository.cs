@@ -36,6 +36,12 @@ namespace SmartCampingAPI.Repository
                 .Where(f => f.FuncionarioId == funcionarioId).FirstOrDefault();
         }
 
+        public Funcionario GetFuncionarioByUser(int utilizadorId)
+        {
+            return _context.Funcionarios
+                .Where(f => f.UtilizadorId == utilizadorId).FirstOrDefault();
+        }
+
         public ICollection<Funcionario> GetFuncionarios()
         {
             return _context.Funcionarios

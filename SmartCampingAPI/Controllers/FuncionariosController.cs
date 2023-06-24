@@ -51,6 +51,20 @@ namespace SmartCampingAPI.Controllers
             return Ok(funcionario);
         }
 
+        [HttpGet("utilizador/{id}")]
+        [ProducesResponseType(200, Type = typeof(Funcionario))] // Not actually needed
+        [ProducesResponseType(400)]
+        public IActionResult GetFuncionarioByUser(int id)
+        {
+            var funcionario = _mapper.Map<FuncionarioDto>
+                (_funcionarioRepository.GetFuncionarioByUser(id));
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(funcionario);
+        }
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

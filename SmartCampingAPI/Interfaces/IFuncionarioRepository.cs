@@ -8,6 +8,7 @@ namespace SmartCampingAPI.Interfaces
         ICollection<Funcionario> GetFuncionarios();
 
         Funcionario GetFuncionario(int funcionarioId);
+        Funcionario GetFuncionarioByUser(int utilizadorId);
         bool FuncionarioExtists(int funcionarioId);
         bool CriarFuncionario(Funcionario funcionario);
         bool AtualizarFuncionario(Funcionario funcionario);

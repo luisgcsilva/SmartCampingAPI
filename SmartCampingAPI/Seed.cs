@@ -18,8 +18,8 @@ namespace SmartCampingAPI
                 {
                     new Reserva()
                     {
-                        DataInicio = new DateTime(2023, 3, 1),
-                        DataFim = new DateTime(2023, 3, 3),
+                        DataInicio = "2023/03/03",
+                        DataFim = "2023/03/06",
                         PrecoTotal = 46.20,
                         Pagamento = 46.20,
                         Cliente = new Cliente()

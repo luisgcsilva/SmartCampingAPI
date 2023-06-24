@@ -42,7 +42,7 @@ namespace SmartCampingAPI.Repository
 
         public ICollection<Alojamento> GetAlojamentos()
         {
-            return _context.Alojamentos.OrderBy(a => a.AlojamentoId).ToList();
+            return _context.Alojamentos.OrderBy(a => a.TipoAlojamentoId).ToList();
         }
 
         public ICollection<Reserva> GetReservasPorAlojamento(int alojamentoId)
