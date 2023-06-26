@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SmartCampingAPI.Data;
+using SmartCampingAPI.Dto;
 
 namespace SmartCampingAPI.Controllers
 {
-    [Route("smartcampingweb/[controller]")]
+    [Route("smartcamping/[controller]")]
     [ApiController]
     public class FilesController : ControllerBase
     {
@@ -15,7 +17,9 @@ namespace SmartCampingAPI.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpPost("upload")]
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
             if (file == null || file.Length == 0) 
@@ -23,18 +27,23 @@ namespace SmartCampingAPI.Controllers
                 return BadRequest();
             }
 
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Fotos");
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            string imageUrl = "/Fotos/" + uniqueFileName;
+            // Specify the folder where you want to store the image
+            var imagePath = "Fotos";
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            // Generate a unique file name or use the original file name
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+            // Combine the folder path and the file name
+            var filePath = Path.Combine(imagePath, fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                file.CopyTo(fileStream);
             }
 
-            return Ok(new { imageUrl });
-        }
+            var response = new { FilePath = filePath };
 
+            return Ok(response);
+        }
     }
 }

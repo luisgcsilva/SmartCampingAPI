@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 using SmartCamping.Models;
 using SmartCampingAPI.Data;
@@ -27,6 +29,16 @@ builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
 builder.Services.AddScoped<ITipoAlojamentoRepository, TipoAlojamentoRepository>();
 builder.Services.AddScoped<ITipoUtilizadorRepository, TipoUtilizadorRepository>();
 builder.Services.AddScoped<IUtilizadorRepository, UtilizadorRepository>();
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.AllowSynchronousIO = true;
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,7 +47,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:4200")
+        builder.AllowAnyOrigin()
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
@@ -58,6 +70,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    RequestPath = "/Fotos",
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Fotos"))
+});
+
 
 app.UseAuthorization();
 
